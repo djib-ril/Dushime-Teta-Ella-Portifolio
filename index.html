@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DUSHIME Teta Ella | Personal E-Portfolio</title>
+  <meta name="description" content="E-Portfolio of DUSHIME Teta Ella - Aspiring Businesswoman, Digital Commerce Enthusiast, and Creative Designer from Rwanda.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="site-header" id="topHeader">
+    <div class="container nav-container">
+      <a href="#hero" class="brand-logo">
+        <span class="brand-initials">Ella</span><span class="gold-dot">.+</span>
+      </a>
+
+      <nav class="main-nav" id="mainNav">
+        <ul class="nav-list">
+          <li><a href="#hero" class="nav-link active">HOME</a></li>
+          <li><a href="#about" class="nav-link">ABOUT</a></li>
+          <li><a href="#skills" class="nav-link">SKILLS</a></li>
+          <li><a href="#projects" class="nav-link">PROJECTS</a></li>
+          <li><a href="#programs" class="nav-link">EXPERIENCES</a></li>
+          <li><a href="#leadership" class="nav-link">LEADERSHIP</a></li>
+          <li><a href="#contact" class="nav-link">CONTACT</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="admin-login-btn" id="openAdminModalBtn" title="Admin Login">
+          <i class="fa-solid fa-lock"></i>
+          <span>Admin</span>
+        </button>
+        <a href="#contact" class="btn btn-primary btn-sm" id="cvDownloadBtn">
+          <span>GET IN TOUCH</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="hero-glow-bg"></div>
+      <div class="container hero-container">
+        
+        <!-- Left Hero Content -->
+        <div class="hero-content">
+          <p class="hero-greeting" id="heroGreeting">Hello, I'm</p>
+          <h1 class="hero-name" id="heroName">
+            DUSHIME<br>
+            <span class="gold-text">TETA ELLA</span>
+          </h1>
+          
+          <div class="hero-tags" id="heroTags">
+            <span>BUSINESSWOMAN</span> • 
+            <span>DIGITAL COMMERCE</span> • 
+            <span>DESIGNER</span> • 
+            <span>LEADER</span>
+          </div>
+
+          <p class="hero-bio" id="heroBio">
+            I am an aspiring businesswoman, leadership enthusiast, digital commerce enthusiast, and creative designer from Rwanda who is passionate about combining leadership, business, technology, and creativity to create solutions that help people and communities.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#projects" class="btn btn-primary">
+              <span>EXPLORE MY WORK</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <a href="#contact" class="btn btn-outline">
+              <span>GET IN TOUCH</span>
+            </a>
+          </div>
+
+          <div class="hero-socials" id="heroSocials">
+            <a href="#" id="heroGithub" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="#" id="heroLinkedin" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" id="heroEmailLink" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+            <a href="#" id="heroLocationBadge" aria-label="Location"><i class="fa-solid fa-location-dot"></i></a>
+          </div>
+        </div>
+
+        <!-- Center Portrait with Arch Frame -->
+        <div class="hero-portrait-wrapper">
+          <div class="arch-frame">
+            <div class="arch-decor top-star"><i class="fa-solid fa-star"></i></div>
+            <div class="arch-decor right-star"><i class="fa-solid fa-sparkles"></i></div>
+            <div class="arch-inner-border"></div>
+            <img src="images/teta_ella_portrait.jpg" alt="DUSHIME Teta Ella" class="hero-photo" id="heroProfileImg">
+          </div>
+        </div>
+
+        <!-- Right Side Floating Role Badges -->
+        <div class="hero-roles-list" id="heroRolesList">
+          <!-- Dynamically populated from data.json -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- About Me & Skills & Highlights 3-Column Section -->
+    <section class="about-section" id="about">
+      <div class="container">
+        <div class="about-grid">
+          
+          <!-- Column 1: About Me -->
+          <div class="about-col-main">
+            <div class="section-header-small">
+              <span class="badge-pill">DISCOVER</span>
+              <h2 class="section-title-sm">ABOUT ME</h2>
+            </div>
+            <div class="about-paragraphs" id="aboutParagraphs">
+              <!-- Dynamically populated -->
+            </div>
+            <a href="#vision" class="text-link-gold">
+              <span>MORE ABOUT MY VISION</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <!-- Column 2: My Skills Progress Bars -->
+          <div class="about-col-skills" id="skills">
+            <div class="section-header-small">
+              <span class="badge-pill">EXPERTISE</span>
+              <h2 class="section-title-sm">MY SKILLS</h2>
+            </div>
+            
+            <div class="skills-category-tabs">
+              <button class="skill-tab-btn active" data-cat="business">Business</button>
+              <button class="skill-tab-btn" data-cat="tech">Tech & Tools</button>
+              <button class="skill-tab-btn" data-cat="soft">Leadership</button>
+            </div>
+
+            <div class="skills-progress-list" id="skillsContainer">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Column 3: Highlights & Stats -->
+          <div class="about-col-highlights">
+            <div class="section-header-small">
+              <span class="badge-pill">MILESTONES</span>
+              <h2 class="section-title-sm">HIGHLIGHTS</h2>
+            </div>
+            <div class="highlights-cards-list" id="highlightsContainer">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    <section class="projects-section" id="projects">
+      <div class="container">
+        <div class="section-top-bar">
+          <div>
+            <span class="badge-pill">PORTFOLIO</span>
+            <h2 class="section-title-lg">FEATURED PROJECTS</h2>
+          </div>
+          <a href="#contact" class="btn btn-outline btn-sm">
+            <span>COLLABORATE WITH ME</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="projects-grid" id="projectsGrid">
+          <!-- Dynamically populated from data.json -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Programs & Experiences / Certificates Section -->
+    <section class="programs-section" id="programs">
+      <div class="container">
+        <div class="section-top-bar">
+          <div>
+            <span class="badge-pill">GROWTH & LEARNING</span>
+            <h2 class="section-title-lg">PROGRAMS & EXPERIENCES</h2>
+          </div>
+        </div>
+
+        <div class="programs-grid" id="programsGrid">
+          <!-- Dynamically populated from data.json -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Leadership & Clubs Timeline Section -->
+    <section class="leadership-section" id="leadership">
+      <div class="container">
+        <div class="section-top-bar">
+          <div>
+            <span class="badge-pill">COMMUNITY & IMPACT</span>
+            <h2 class="section-title-lg">CLUBS & LEADERSHIP</h2>
+          </div>
+        </div>
+
+        <div class="leadership-timeline" id="leadershipTimeline">
+          <!-- Dynamically populated from data.json -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Vision & Goals Quote Banner -->
+    <section class="vision-section" id="vision">
+      <div class="container">
+        <div class="vision-card">
+          <div class="vision-icon"><i class="fa-solid fa-quote-left"></i></div>
+          <blockquote class="vision-quote" id="visionQuote">
+            <!-- Dynamically populated from data.json -->
+          </blockquote>
+          <p class="vision-subtext" id="visionSubtext">
+            <!-- Dynamically populated from data.json -->
+          </p>
+          <div class="vision-author">
+            <strong>DUSHIME Teta Ella</strong>
+            <span>Student & Future Entrepreneur • Liquidnet Family High School (ASYV)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact & Footer Section -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <div class="contact-wrapper">
+          
+          <div class="contact-info-col">
+            <p class="script-heading">Let's work together!</p>
+            <p class="contact-lead-text">
+              I'm always open to new opportunities, collaborations, leadership initiatives, and digital commerce projects.
+            </p>
+
+            <div class="contact-details-list">
+              <div class="contact-detail-item">
+                <div class="contact-icon"><i class="fa-regular fa-envelope"></i></div>
+                <div>
+                  <span class="detail-label">Email</span>
+                  <a href="mailto:tetaelladushime@gmail.com" id="contactEmail" class="detail-value">tetaelladushime@gmail.com</a>
+                </div>
+              </div>
+
+              <div class="contact-detail-item">
+                <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+                <div>
+                  <span class="detail-label">Location</span>
+                  <p id="contactLocation" class="detail-value">Kigali, Rwanda</p>
+                </div>
+              </div>
+
+              <div class="contact-detail-item">
+                <div class="contact-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                <div>
+                  <span class="detail-label">Education</span>
+                  <p id="contactSchool" class="detail-value">Liquidnet Family High School at ASYV (MPGE)</p>
+                </div>
+              </div>
+
+              <div class="contact-detail-item">
+                <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+                <div>
+                  <span class="detail-label">Phone / WhatsApp</span>
+                  <p id="contactPhone" class="detail-value">+250 788 000 000</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-social-icons" id="contactSocialIcons">
+              <a href="#" id="footerLinkedin" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="#" id="footerGithub" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+              <a href="mailto:tetaelladushime@gmail.com" id="footerEmail" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="contact-form-col">
+            <div class="stay-connected-box">
+              <h3 class="box-title">STAY CONNECTED</h3>
+              <p class="box-sub">Send a direct message or inquiry to Teta Ella.</p>
+
+              <form id="contactForm" class="contact-form" action="https://formsubmit.co/tetaelladushime@gmail.com" method="POST">
+                <!-- Anti-spam & Configuration Fields -->
+                <input type="hidden" name="_subject" id="formSubjectInput" value="New Portfolio Message from Visitor">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+                <div class="form-group">
+                  <label for="senderName">Your Name</label>
+                  <input type="text" id="senderName" name="name" class="form-control" placeholder="Jane Doe" required autocomplete="name">
+                </div>
+
+                <div class="form-group">
+                  <label for="senderEmail">Your Email</label>
+                  <input type="email" id="senderEmail" name="email" class="form-control" placeholder="jane@example.com" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                  <label for="senderMessage">Message</label>
+                  <textarea id="senderMessage" name="message" class="form-control" rows="4" placeholder="Hello Ella, I would love to connect about..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" id="sendMessageBtn">
+                  <span>SEND MESSAGE</span>
+                  <i class="fa-solid fa-paper-plane"></i>
+                </button>
+                <div id="formStatus" class="form-status-msg"></div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; <span id="currentYear">2026</span> DUSHIME Teta Ella. All Rights Reserved.</p>
+          <p class="footer-tagline">Built with passion • Leadership, Business & Technology</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Admin Login Popup Modal -->
+  <dialog id="adminLoginModal" class="admin-modal">
+    <div class="admin-modal-content">
+      <button type="button" class="admin-modal-close" id="closeAdminModalBtn" aria-label="Close modal">&times;</button>
+      
+      <div class="admin-modal-header">
+        <div class="admin-modal-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <h2 class="admin-modal-title">Admin Portal Login</h2>
+        <p class="admin-modal-desc">Sign in to edit portfolio texts, upload new photos, and manage all sections.</p>
+      </div>
+
+      <form id="adminLoginForm" class="admin-login-form">
+        <div class="form-group">
+          <label for="adminUsername"><i class="fa-regular fa-user"></i> Username</label>
+          <input type="text" id="adminUsername" class="form-control" placeholder="admin" required autocomplete="username">
+        </div>
+
+        <div class="form-group">
+          <label for="adminPassword"><i class="fa-solid fa-key"></i> Password</label>
+          <input type="password" id="adminPassword" class="form-control" placeholder="••••" required autocomplete="current-password">
+        </div>
+
+        <div id="loginErrorMessage" class="login-error-alert" style="display: none;">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span id="loginErrorText">Invalid username or password</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="loginSubmitBtn">
+          <span>LOG IN TO DASHBOARD</span>
+          <i class="fa-solid fa-arrow-right-to-bracket"></i>
+        </button>
+
+        <p class="credentials-hint">Credentials: <code>admin</code> / <code>ella</code></p>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Toast Container -->
+  <div id="toastNotification" class="toast-notification"></div>
+
+    <!-- Supabase CDN and Configuration -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

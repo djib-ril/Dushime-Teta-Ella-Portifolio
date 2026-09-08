@@ -1,0 +1,14 @@
+{
+  "name": "teta-ella-portfolio",
+  "version": "1.0.0",
+  "description": "Personal E-Portfolio & Admin Management System for DUSHIME Teta Ella",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "DUSHIME Teta Ella",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.116.0"
+  }
+}

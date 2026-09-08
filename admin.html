@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard & Content Editor | DUSHIME Teta Ella Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+  <!-- Top Admin Navigation Bar -->
+  <header class="admin-topbar">
+    <div class="topbar-left">
+      <div class="admin-badge">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>ADMIN CMS</span>
+      </div>
+      <h1 class="topbar-title">Teta Ella E-Portfolio Editor</h1>
+    </div>
+
+    <div class="topbar-actions">
+      <span id="supabaseStatusIndicator" class="status-indicator" style="background: rgba(14, 165, 233, 0.12); color: #38bdf8; border: 1px solid rgba(14, 165, 233, 0.25);">
+        <i class="fa-solid fa-cloud"></i>
+        <span>Checking Supabase...</span>
+      </span>
+      <span id="saveStatusIndicator" class="status-indicator synced">
+        <i class="fa-solid fa-circle-check"></i>
+        <span>Synced with data.json</span>
+      </span>
+      <a href="index.html" target="_blank" class="btn btn-secondary btn-sm" title="Open public portfolio">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        <span>View Live Site</span>
+      </a>
+      <button type="button" id="saveAllBtn" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-floppy-disk"></i>
+        <span>Save All Changes</span>
+      </button>
+      <button type="button" id="adminLogoutBtn" class="btn btn-outline btn-sm" title="Sign out of admin panel">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Logout</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-user">
+        <img src="images/teta_ella_portrait.jpg" id="sidebarAvatar" alt="Admin Avatar" class="sidebar-avatar">
+        <div>
+          <strong>DUSHIME Teta Ella</strong>
+          <span class="user-role">Administrator</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <a href="#secHero" class="menu-item active"><i class="fa-solid fa-house-user"></i> Hero & Identity</a>
+        <a href="#secAbout" class="menu-item"><i class="fa-solid fa-user-pen"></i> About Me & Stats</a>
+        <a href="#secSkills" class="menu-item"><i class="fa-solid fa-chart-simple"></i> Skills & Expertise</a>
+        <a href="#secProjects" class="menu-item"><i class="fa-solid fa-briefcase"></i> Featured Projects</a>
+        <a href="#secPrograms" class="menu-item"><i class="fa-solid fa-certificate"></i> Programs & Trainings</a>
+        <a href="#secLeadership" class="menu-item"><i class="fa-solid fa-users"></i> Clubs & Leadership</a>
+        <a href="#secVision" class="menu-item"><i class="fa-solid fa-quote-left"></i> Vision & Goals</a>
+        <a href="#secContact" class="menu-item"><i class="fa-solid fa-address-book"></i> Contact & Socials</a>
+        <a href="#secSupabase" class="menu-item"><i class="fa-solid fa-database"></i> Supabase Cloud</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button type="button" id="resetDefaultsBtn" class="btn-text-danger">
+          <i class="fa-solid fa-rotate-left"></i>
+          <span>Reset Default Data</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Form Content -->
+    <main class="admin-main">
+      <form id="portfolioAdminForm" class="portfolio-admin-form">
+        
+        <!-- SECTION 1: HERO & IDENTITY -->
+        <section id="secHero" class="editor-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title"><i class="fa-solid fa-house-user gold-icon"></i> Hero & Personal Identity</h2>
+              <p class="card-subtitle">Manage greeting, primary headline, hero bio, and profile picture.</p>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="inputHeroGreeting">Script Greeting</label>
+                <input type="text" id="inputHeroGreeting" class="form-input" placeholder="Hello, I'm">
+              </div>
+              <div class="form-group">
+                <label for="inputHeroName">Full Name</label>
+                <input type="text" id="inputHeroName" class="form-input" placeholder="DUSHIME Teta Ella">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputHeroTitle">Professional Title / Subtitle</label>
+              <input type="text" id="inputHeroTitle" class="form-input" placeholder="Aspiring Businesswoman | Digital Commerce Enthusiast | Creative Designer">
+            </div>
+
+            <div class="form-group">
+              <label for="inputHeroBio">Hero Bio / Intro Paragraph</label>
+              <textarea id="inputHeroBio" class="form-textarea" rows="3"></textarea>
+            </div>
+
+            <div class="form-row-2 image-uploader-row">
+              <div class="image-preview-box">
+                <label>Profile Picture Preview</label>
+                <div class="preview-arch-container">
+                  <img src="images/teta_ella_portrait.jpg" id="heroImagePreview" alt="Profile Preview">
+                </div>
+              </div>
+
+              <div class="image-upload-controls">
+                <label>Upload New Profile Picture</label>
+                <p class="help-text">Select an image from your computer (JPG, PNG, WEBP). It will be saved immediately to the server.</p>
+                <div class="file-dropzone" id="heroDropzone">
+                  <i class="fa-solid fa-cloud-arrow-up dropzone-icon"></i>
+                  <span>Click or drag image file here</span>
+                  <input type="file" id="heroImageFile" accept="image/*" class="file-input-hidden">
+                </div>
+                <div class="input-with-label">
+                  <span class="prefix-label">Image Path:</span>
+                  <input type="text" id="inputHeroImagePath" class="form-input" placeholder="images/teta_ella_portrait.jpg">
+                </div>
+              </div>
+            </div>
+
+            <!-- Role Badges Editor -->
+            <div class="sub-editor-group">
+              <div class="sub-header">
+                <h3>Floating Role Badges (Hero Section)</h3>
+              </div>
+              <div id="heroRolesEditorList" class="dynamic-items-list">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 2: ABOUT ME & STATS -->
+        <section id="secAbout" class="editor-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title"><i class="fa-solid fa-user-pen gold-icon"></i> About Me & Highlights</h2>
+              <p class="card-subtitle">Edit biography paragraphs and milestone counter statistics.</p>
+            </div>
+            <button type="button" id="addAboutParagraphBtn" class="btn btn-secondary btn-sm">
+              <i class="fa-solid fa-plus"></i> Add Paragraph
+            </button>
+          </div>
+
+          <div class="card-body">
+            <div class="form-group">
+              <label>Biography Paragraphs</label>
+              <div id="aboutParagraphsList" class="dynamic-paragraphs-list">
+                <!-- Repeatable textareas populated by JS -->
+              </div>
+            </div>
+
+            <div class="sub-editor-group">
+              <div class="sub-header">
+                <h3>Highlights & Milestone Counters</h3>
+              </div>
+              <div id="aboutStatsList" class="stats-grid-editor">
+                <!-- Stat inputs -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 3: SKILLS -->
+        <section id="secSkills" class="editor-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title"><i class="fa-solid fa-chart-simple gold-icon"></i> Skills & Expertise</h2>
+              <p class="card-subtitle">Manage business, technology, and leadership skills with proficiency levels.</p>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <!-- Business Skills -->
+            <div class="skill-group-box">
+              <div class="skill-group-top">
+                <h3>Business & Entrepreneurship</h3>
+                <button type="button" class="btn btn-secondary btn-sm" id="addBusinessSkillBtn">
+                  <i class="fa-solid fa-plus"></i> Add Business Skill
+                </button>
+              </div>
+              <div id="businessSkillsList" class="skills-editor-container"></div>
+            </div>
+
+            <!-- Tech Skills -->
+            <div class="skill-group-box">
+              <div class="skill-group-top">
+                <h3>Technology & Tools</h3>
+                <button type="button" class="btn btn-secondary btn-sm" id="addTechSkillBtn">
+                  <i class="fa-solid fa-plus"></i> Add Tech Skill
+                </button>
+              </div>
+              <div id="techSkillsList" class="skills-editor-container"></div>
+            </div>
+
+            <!-- Soft Skills -->
+            <div class="skill-group-box">
+              <div class="skill-group-top">
+                <h3>Leadership & Soft Skills</h3>
+                <button type="button" class="btn btn-secondary btn-sm" id="addSoftSkillBtn">
+                  <i class="fa-solid fa-plus"></i> Add Leadership Skill
+                </button>
+              </div>
+              <div id="softSkillsList" class="skills-editor-container"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 4: FEATURED PROJECTS -->
+        <section id="secProjects" class="editor-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title"><i class="fa-solid fa-briefcase gold-icon"></i> Featured Projects</h2>
+              <p class="card-subtitle">Add or edit projects, upload mockup photos, and configure tags.</p>
+            </div>
+            <button type="button" id="addNewProjectBtn" class="btn btn-primary btn-sm">
+              <i class="fa-solid fa-plus"></i> Add New Project
+            </button>
+          </div>
+
+          <div class="card-body">
+            <div id="projectsEditorList" class="projects-editor-list">
+              <!-- Dynamically populated project items -->
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 5: PROGRAMS & TRAININGS -->
+        <section id="secPrograms" class="editor-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title"><i class="fa-solid fa-certificate gold-icon"></i> Programs & Experiences</h2>
+              <p class="card-subtitle">Manage workshops, summer camps, and certifications.</p>
+            </div>
+            <button type="button" id="addNewProgramBtn" class="btn btn-primary btn-sm">
+              <i class="fa-solid fa-plus"></i> Add Program
+            </button>
+          </div>
+
+          <div class="card-body">
+            <div id="programsEditorList" class="programs-editor-list">
+              <!-- Dynamically populated program items -->
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 6: CLUBS & LEADERSHIP -->
+        <section id="secLeadership" class="editor-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title"><i class="fa-solid fa-users gold-icon"></i> Clubs & Leadership Timeline</h2>
+              <p class="card-subtitle">Manage school clubs, advocate roles, and community initiatives.</p>
+            </div>
+            <button type="button" id="addNewClubBtn" class="btn btn-primary btn-sm">
+              <i class="fa-solid fa-plus"></i> Add Leadership Role
+            </button>
+          </div>
+
+          <div class="card-body">
+            <div id="clubsEditorList" class="clubs-editor-list">
+              <!-- Dynamically populated club items -->
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 7: VISION & GOALS -->
+        <section id="secVision" class="editor-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title"><i class="fa-solid fa-quote-left gold-icon"></i> Vision & Goals</h2>
+              <p class="card-subtitle">Update your personal mission, leadership vision, and empowerment statements.</p>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="form-group">
+              <label for="inputVisionQuote">Primary Vision Quote</label>
+              <textarea id="inputVisionQuote" class="form-textarea" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="inputVisionSecondary">Secondary Statement / Mission</label>
+              <textarea id="inputVisionSecondary" class="form-textarea" rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 8: CONTACT & SOCIALS -->
+        <section id="secContact" class="editor-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title"><i class="fa-solid fa-address-book gold-icon"></i> Contact Information & Socials</h2>
+              <p class="card-subtitle">Manage public contact details, school combination, and social profiles.</p>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="inputContactEmail">Email Address</label>
+                <input type="email" id="inputContactEmail" class="form-input" placeholder="tetaelladushime@gmail.com">
+              </div>
+              <div class="form-group">
+                <label for="inputContactPhone">Phone Number / WhatsApp</label>
+                <input type="text" id="inputContactPhone" class="form-input" placeholder="+250 788 000 000">
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="inputContactLocation">Location</label>
+                <input type="text" id="inputContactLocation" class="form-input" placeholder="Kigali, Rwanda">
+              </div>
+              <div class="form-group">
+                <label for="inputContactSchool">School & Program</label>
+                <input type="text" id="inputContactSchool" class="form-input" placeholder="Liquidnet Family High School at ASYV (MPGE)">
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="inputContactLinkedin">LinkedIn Profile URL</label>
+                <input type="url" id="inputContactLinkedin" class="form-input" placeholder="https://linkedin.com/in/teta-ella">
+              </div>
+              <div class="form-group">
+                <label for="inputContactGithub">GitHub Profile URL</label>
+                <input type="url" id="inputContactGithub" class="form-input" placeholder="https://github.com/teta-ella">
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </form>
+    </main>
+  </div>
+
+  <!-- Sticky Save Floating Bar -->
+  <div class="sticky-save-bar">
+    <div class="sticky-save-inner">
+      <div class="save-status-text">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <span>Changes ready to be saved live to data.json</span>
+      </div>
+      <div class="sticky-actions">
+        <a href="index.html" target="_blank" class="btn btn-secondary btn-sm">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Preview
+        </a>
+        <button type="button" id="stickySaveAllBtn" class="btn btn-primary">
+          <i class="fa-solid fa-floppy-disk"></i> Save All Changes
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="adminToast" class="admin-toast"></div>
+
+    <!-- Supabase CDN and Configuration -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
