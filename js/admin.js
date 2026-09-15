@@ -16,68 +16,49 @@ document.addEventListener('DOMContentLoaded', () => {
   initLogout();
 
   async function initAdminDashboard() {
-    // NEW UPDATED CODE for admin.js
-async function initAdminDashboard() {
-  // 1. Try loading live content directly from Supabase Cloud
-  const supabase = typeof window.getSupabaseClient === 'function' ? window.getSupabaseClient() : null;
-  if (supabase) {
-    try {
-      const { data, error } = await supabase
-        .from('portfolio_content')
-        .select('content')
-        .eq('id', 'main_portfolio')
-        .single();
+    const supabase = typeof window.getSupabaseClient === 'function' ? window.getSupabaseClient() : null;
+    if (supabase) {
+      try {
+        const { data, error } = await supabase
+          .from('portfolio_content')
+          .select('content')
+          .eq('id', 'main_portfolio')
+          .maybeSingle();
 
-      if (data && data.content && !error) {
-        currentData = data.content;
-        console.log('Loaded admin content directly from Supabase!');
+        if (error) {
+          console.warn('Supabase fetch error in admin:', formatSupabaseError(error));
+        } else if (data && data.content) {
+          currentData = data.content;
+          console.log('Loaded admin content from Supabase.');
+        }
+      } catch (supErr) {
+        console.warn('Supabase fetch exception in admin:', supErr);
       }
-    } catch (supErr) {
-      console.warn('Supabase fetch exception in admin:', supErr);
     }
-  }
 
-  // 2. Fall back to local server /api/content if Supabase didn't return data
-  if (!currentData) {
-    try {
-      const res = await fetch('/api/content', { cache: 'no-store' });
-      if (res.ok) {
-        currentData = await res.json();
+    if (!currentData) {
+      try {
+        const res = await fetch('/api/content', { cache: 'no-store' });
+        if (res.ok) {
+          currentData = await res.json();
+        }
+      } catch (err) {
+        console.warn('Local /api/content unavailable:', err);
       }
-    } catch (err) {
-      console.warn('Falling back to local cache:', err);
+    }
+
+    if (!currentData) {
       const cached = localStorage.getItem('teta_ella_portfolio_data');
       if (cached) {
-        currentData = JSON.parse(cached);
+        try { currentData = JSON.parse(cached); } catch (e) { currentData = null; }
       }
     }
-  }
 
-  // 3. Fall back to default empty structure if nothing was retrieved
-  if (!currentData) {
-    console.warn('No existing data found. Initializing empty admin fields.');
-    currentData = {};
-  }
+    if (!currentData) {
+      console.warn('No existing data found. Initializing empty admin fields.');
+      currentData = {};
+    }
 
-  // Populate all fields
-  populateHero(currentData.hero || {});
-  populateAbout(currentData.about || {});
-  populateSkills(currentData.skills || {});
-  populateProjects(currentData.projects || []);
-  populatePrograms(currentData.programs || []);
-  populateClubs(currentData.clubs || []);
-  populateVision(currentData.vision || {});
-  populateContact(currentData.contact || {});
-
-  // Bind event listeners
-  initHeroImageUpload();
-  initDynamicAddButtons();
-  initSaveActions();
-  initResetDefaults();
-  initSupabaseUI();
-}
-
-    // Populate all fields
     populateHero(currentData.hero || {});
     populateAbout(currentData.about || {});
     populateSkills(currentData.skills || {});
@@ -87,7 +68,6 @@ async function initAdminDashboard() {
     populateVision(currentData.vision || {});
     populateContact(currentData.contact || {});
 
-    // Bind event listeners
     initHeroImageUpload();
     initDynamicAddButtons();
     initSaveActions();
@@ -504,70 +484,89 @@ async function initAdminDashboard() {
     const stickySaveBtn = document.getElementById('stickySaveAllBtn');
 
     const handleSave = async () => {
+      if (!saveBtn || !stickySaveBtn) {
+        alert('Save buttons were not found on the page.');
+        return;
+      }
+
       saveBtn.disabled = true;
       stickySaveBtn.disabled = true;
       saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
       stickySaveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
 
       const updatedData = collectAllFormData();
+      localStorage.setItem('teta_ella_portfolio_data', JSON.stringify(updatedData));
+
+      let supabaseSaved = false;
+      let supabaseError = '';
+      let localSaved = false;
+
+      const supabase = typeof window.getSupabaseClient === 'function' ? window.getSupabaseClient() : null;
+      if (!supabase) {
+        supabaseError = 'Supabase client is not available. Check js/supabase-config.js and the CDN script.';
+      } else {
+        try {
+          const { error: supError } = await supabase
+            .from('portfolio_content')
+            .upsert({
+              id: 'main_portfolio',
+              content: updatedData,
+              updated_at: new Date().toISOString()
+            }, { onConflict: 'id' })
+            .select('id')
+            .single();
+
+          if (!supError) {
+            supabaseSaved = true;
+            console.log('Saved to Supabase portfolio_content.');
+          } else {
+            supabaseError = formatSupabaseError(supError);
+            console.error('Supabase save error:', supError);
+          }
+        } catch (supErr) {
+          supabaseError = supErr && supErr.message ? supErr.message : String(supErr);
+          console.error('Supabase upsert exception:', supErr);
+        }
+      }
 
       try {
-        let supabaseSaved = false;
-        const supabase = typeof window.getSupabaseClient === 'function' ? window.getSupabaseClient() : null;
-        if (supabase) {
-          try {
-            const { error: supError } = await supabase
-              .from('portfolio_content')
-              .upsert({
-                id: 'main_portfolio',
-                content: updatedData,
-                updated_at: new Date().toISOString()
-              });
-            if (!supError) {
-              supabaseSaved = true;
-              console.log('Saved to Supabase portfolio_content table successfully!');
-            } else {
-              console.warn('Supabase save returned error:', supError.message);
-            }
-          } catch (supErr) {
-            console.warn('Supabase upsert exception:', supErr);
-          }
-        }
-
-        // Also persist to local server and localStorage
         const res = await fetch('/api/content', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updatedData)
         });
-
-        if (res.ok || supabaseSaved) {
-          localStorage.setItem('teta_ella_portfolio_data', JSON.stringify(updatedData));
-          currentData = updatedData;
-          markSynced();
-          if (supabaseSaved) {
-            showToast('Changes saved to Supabase Cloud! Live immediately for everyone.');
-          } else {
-            showToast('Changes saved live! Everyone with the link can now see them.');
-          }
-        } else {
-          throw new Error('Server returned ' + res.status);
+        localSaved = res.ok;
+        if (!res.ok) {
+          console.warn('Local /api/content save returned', res.status);
         }
       } catch (err) {
-        console.warn('Saving to server failed, saving locally:', err);
-        localStorage.setItem('teta_ella_portfolio_data', JSON.stringify(updatedData));
-        markSynced();
-        showToast('Saved locally in browser cache.');
-      } finally {
-        saveBtn.disabled = false;
-        stickySaveBtn.disabled = false;
-        saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save All Changes';
-        stickySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save All Changes';
+        console.warn('Local /api/content is not running (that is OK if you use Supabase):', err);
       }
+
+      if (supabaseSaved) {
+        currentData = updatedData;
+        markSynced(true);
+        showToast('Saved to Supabase. Anyone with the live link will see this on refresh (or instantly if the page is open).');
+      } else if (localSaved) {
+        currentData = updatedData;
+        markSynced(false);
+        showToast('Saved on this computer only. Public visitors will not see it until Supabase save works: ' + supabaseError);
+      } else {
+        markUnsaved();
+        const message = 'Could not save to Supabase. ' + (supabaseError || 'Unknown error') +
+          ' Run supabase_schema.sql in the Supabase SQL Editor, then try Save again.';
+        showToast(message);
+        alert(message);
+      }
+
+      saveBtn.disabled = false;
+      stickySaveBtn.disabled = false;
+      saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save All Changes';
+      stickySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save All Changes';
     };
 
-    saveBtn.onclick = handleSave;
-    stickySaveBtn.onclick = handleSave;
+    if (saveBtn) saveBtn.onclick = handleSave;
+    if (stickySaveBtn) stickySaveBtn.onclick = handleSave;
   }
 
   // Collect All Form Data into Structured JSON
@@ -716,12 +715,20 @@ async function initAdminDashboard() {
     }
   }
 
-  function markSynced() {
+  function markSynced(cloud) {
     const indicator = document.getElementById('saveStatusIndicator');
     if (indicator) {
       indicator.className = 'status-indicator synced';
-      indicator.innerHTML = '<i class="fa-solid fa-circle-check"></i><span>Synced with data.json</span>';
+      indicator.innerHTML = cloud
+        ? '<i class="fa-solid fa-circle-check"></i><span>Synced with Supabase</span>'
+        : '<i class="fa-solid fa-circle-check"></i><span>Saved on this computer only</span>';
     }
+  }
+
+  function formatSupabaseError(error) {
+    if (!error) return '';
+    const parts = [error.message, error.details, error.hint, error.code].filter(Boolean);
+    return parts.join(' — ');
   }
 
   function showToast(msg) {
@@ -761,7 +768,6 @@ async function initAdminDashboard() {
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
   }
-});
 
   // Unified Photo Upload Helper (Supabase Storage with Local Fallback)
   async function uploadPhoto(file) {
@@ -874,7 +880,7 @@ async function initAdminDashboard() {
           indicator.style.background = 'rgba(245, 158, 11, 0.15)';
           indicator.style.color = '#fbbf24';
           indicator.style.border = '1px solid rgba(245, 158, 11, 0.3)';
-          indicator.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i><span>Run supabase_schema.sql in SQL Editor</span>';
+          indicator.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i><span>Run supabase_schema.sql — ' + escapeHtml(error.message || 'table missing') + '</span>';
         }
       } catch (err) {
         indicator.className = 'status-indicator';
@@ -885,3 +891,4 @@ async function initAdminDashboard() {
       }
     }
   }
+});

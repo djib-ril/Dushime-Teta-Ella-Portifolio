@@ -1,10 +1,10 @@
 {
   "hero": {
     "greeting": "Hello, I'm",
-    "name": "DUSHIME Teta Ella",
+    "name": "Ella Teta Dushime",
     "title": "Aspiring Businesswoman | Digital Commerce Enthusiast | Creative Designer",
     "bio": "I am an aspiring businesswoman, leadership enthusiast, digital commerce enthusiast, and creative designer from Rwanda who is passionate about combining leadership, business, technology, and creativity to create solutions that help people and communities. I enjoy learning new skills, exploring entrepreneurship, and using technology as a tool for innovation and impact.",
-    "profileImage": "uploads/teta_ella_portrait_1788877270615.jpg",
+    "profileImage": "images/teta_ella_portrait.jpg",
     "cvUrl": "#",
     "roles": [
       {
@@ -238,7 +238,7 @@
     "secondary": "I want to become a successful entrepreneur and digital commerce professional who combines technology, creativity, and business to create opportunities and solutions for people."
   },
   "contact": {
-    "fullName": "DUSHIME Teta Ella",
+    "fullName": "Ella Teta Dushime",
     "location": "Kigali, Rwanda",
     "school": "Liquidnet Family High School at Agahozo-Shalom Youth Village",
     "combination": "Mathematics, Physics, Geography, and Economics (MPGE)",

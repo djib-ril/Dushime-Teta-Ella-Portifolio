@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
           .from('portfolio_content')
           .select('content')
           .eq('id', 'main_portfolio')
-          .single();
+          .maybeSingle();
 
         if (data && data.content && !error) {
           portfolioData = data.content;
@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (error) {
           console.warn('Supabase query returned error (table might need setup):', error.message);
         }
+
+        subscribeToLiveUpdates(supabase);
       } catch (supErr) {
         console.warn('Supabase fetch error, falling back to local server:', supErr);
       }
@@ -54,6 +56,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (portfolioData) {
       renderAll(portfolioData);
+    }
+  }
+
+  function subscribeToLiveUpdates(supabase) {
+    if (!supabase || typeof supabase.channel !== 'function') return;
+    try {
+      supabase
+        .channel('portfolio-live')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'portfolio_content',
+            filter: 'id=eq.main_portfolio'
+          },
+          (payload) => {
+            const next = payload && payload.new && payload.new.content;
+            if (next) {
+              portfolioData = next;
+              renderAll(portfolioData);
+              showToast('Portfolio updated live.');
+            }
+          }
+        )
+        .subscribe((status) => {
+          if (status === 'SUBSCRIBED') {
+            console.log('Listening for live portfolio updates from Supabase.');
+          }
+        });
+    } catch (err) {
+      console.warn('Could not subscribe to live updates:', err);
     }
   }
 
